@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  stripe:
+    build:
+      context: .
+    container_name: stripe
+    env_file:
+      - .env
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:9000"
+    volumes:
+      - .:/store
+    ports:
+      - "9000:9000"
