@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="text-align: center; margin: 50px;">
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+    <p>Price: {{ item.price }} {{ item.currency }}</p>
+    <button type="button" id="checkout-button" data-item-id="{{ item.id }}" data-stripe-pk="{{ stripe_pub_key }}">Buy</button>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var checkoutButton = document.getElementById('checkout-button');
+        var stripe = Stripe(checkoutButton.getAttribute('data-stripe-pk'));
+
+        checkoutButton.addEventListener('click', function () {
+            var itemId = checkoutButton.getAttribute('data-item-id');
+            fetch('/buy/' + itemId)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (sessionId) {
+                    return stripe.redirectToCheckout({ sessionId: sessionId });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</div>
+
+{% endblock %}

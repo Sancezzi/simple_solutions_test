@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite database file
+db.sqlite3
+
+# Logs
+*.log
+
+# Ignore local settings
+local_settings.py
+
+# Ignore the media folder
+media/
+
+# Ignore static files
+staticfiles/
+
+# Ignore secret key
+*.secret_key
